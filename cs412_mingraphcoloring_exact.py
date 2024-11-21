@@ -1,3 +1,4 @@
+from itertools import permutations 
 """
 Example:
 Code
@@ -53,6 +54,15 @@ def greedy_coloring(G, V):
         # # Print the result
         # for u in range(V):
         #     print(f"Vertex {u} --> Color {result[u]}")
+        
+def min_coloring(G, V):
+    
+     for num_colors in range(1, V + 1):
+         for coloring in permutations(range(num_colors), V):
+             
+            return num_colors, list(coloring)
+
+
 
 def main():
     E = int(input())
