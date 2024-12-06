@@ -2,10 +2,7 @@ import sys
 
 def read_graph():
     """
-    Reads a graph from stdin.
-
-    Returns:
-        dict: Adjacency list representation of the graph.
+    reads graph as explained in ppt
     """
     lines = sys.stdin.readlines()
     num_edges = int(lines[0].strip())
@@ -24,15 +21,7 @@ def read_graph():
 
 def verify_coloring(adjacency_list, vertex_colors):
     """
-    Polynomial-time certifier for graph coloring solution.
-    Runtime: O(V + E) where V is number of vertices and E is number of edges.
-
-    Args:
-        adjacency_list (dict): Adjacency list representation of the graph
-        vertex_colors (dict): Mapping of vertices to their assigned colors
-
-    Returns:
-        tuple: (is_valid, message) where is_valid is True if coloring is valid
+    Verify coloring as explained in ppt
     """
     # Verify all vertices are colored
     for vertex in adjacency_list:
@@ -50,13 +39,9 @@ def verify_coloring(adjacency_list, vertex_colors):
 
 def greedy_coloring(adjacency_list):
     """
-    Perform greedy coloring on the graph.
 
-    Args:
-        adjacency_list (dict): Adjacency list of the graph.
+    performs coloring as explained in ppt
 
-    Returns:
-        dict: Mapping of vertices to colors.
     """
     vertex_colors = {}
     # Sort vertices by degree in descending order for better approximation

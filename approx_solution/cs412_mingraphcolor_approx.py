@@ -3,13 +3,7 @@ import sys
 
 def read_graph(input_file):
     """
-    Reads a graph from the input file.
-
-    Args:
-        input_file (str): Path to the input file.
-
-    Returns:
-        list: Adjacency list representation of the graph.
+    reads graph how descrived in ppt
     """
     with open(input_file, "r") as file:
         lines = file.readlines()
@@ -31,23 +25,7 @@ def read_graph(input_file):
 
 def verify_coloring(adjacency_list, vertex_colors):
     """
-    Polynomial-time certifier for graph coloring solution.
-    Runtime: O(V + E) where V is number of vertices and E is number of edges.
-
-    This certifier verifies that:
-    1. Every vertex has a color (completeness)
-    2. No adjacent vertices share colors (correctness)
-
-    These checks are sufficient to prove a valid graph coloring in polynomial time.
-
-    Args:
-        adjacency_list (dict): Adjacency list representation of the graph
-        vertex_colors (dict): Mapping of vertices to their assigned colors
-
-    Returns:
-        tuple: (is_valid, message) where:
-            - is_valid (bool): True if coloring is valid, False otherwise
-            - message (str): Verification details and runtime analysis
+    verified coloring as describved in ppt
     """
     # Step 1: Verify all vertices are colored - O(V) time
     for vertex in adjacency_list:
@@ -69,13 +47,9 @@ def verify_coloring(adjacency_list, vertex_colors):
 
 def greedy_coloring(adjacency_list):
     """
-    Perform greedy coloring on the graph.
 
-    Args:
-        adjacency_list (dict): Adjacency list of the graph.
+    performs coloring as describde in ppt
 
-    Returns:
-        dict: Mapping of vertices to colors.
     """
     vertex_colors = {}
     # Sort vertices by degree in descending order
