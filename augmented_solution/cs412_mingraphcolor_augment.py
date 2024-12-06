@@ -1,21 +1,32 @@
 import sys
 
-def read_graph(input_file):
-    with open(input_file, "r") as file:
-        lines = file.readlines()
-        num_edges = int(lines[0].strip())
-        edges = [tuple(line.strip().split()) for line in lines[1:]]
-
-    adjacency_list = {}
-    for u, v in edges:
-        if u not in adjacency_list:
-            adjacency_list[u] = set()
-        if v not in adjacency_list:
-            adjacency_list[v] = set()
-        adjacency_list[u].add(v)
-        adjacency_list[v].add(u)
-
-    return adjacency_list
+def read_graph_from_stdin():
+    try:
+        # Read number of edges
+        num_edges = int(input().strip())
+        
+        # Read edges and build adjacency list
+        adjacency_list = {}
+        for _ in range(num_edges):
+            u, v = input().strip().split()
+            
+            # Initialize vertices if not seen before
+            if u not in adjacency_list:
+                adjacency_list[u] = set()
+            if v not in adjacency_list:
+                adjacency_list[v] = set()
+                
+            # Add undirected edge
+            adjacency_list[u].add(v)
+            adjacency_list[v].add(u)
+            
+        return adjacency_list
+    except EOFError:
+        print("Error: Incomplete input", file=sys.stderr)
+        sys.exit(1)
+    except ValueError:
+        print("Error: Invalid input format", file=sys.stderr)
+        sys.exit(1)
 
 def compute_lower_bound(adjacency_list):
     """
@@ -55,13 +66,9 @@ def greedy_coloring(adjacency_list):
                 break
     return vertex_colors
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python graph_coloring.py <input_file>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    adjacency_list = read_graph(input_file)
+def main():
+    # Read graph from stdin
+    adjacency_list = read_graph_from_stdin()
     
     # Compute bounds
     lower_bound = compute_lower_bound(adjacency_list)
@@ -71,10 +78,16 @@ if __name__ == "__main__":
     vertex_colors = greedy_coloring(adjacency_list)
     approx_colors = len(set(vertex_colors.values()))
     
-    print(f"Lower bound: {lower_bound}")
-    print(f"Upper bound: {upper_bound}")
-    print(f"Approximation: {approx_colors}")
-    print("\nVertex coloring:")
-    for vertex, color in vertex_colors.items():
+    # Print results
+    print(f"Lower Bound: {lower_bound}")  # Lower bound
+    print(f"Upper Bound: {upper_bound}")  # Upper bound
+    print(f"Approx: {approx_colors}\n")  # Our approximation
+    
+    # Print coloring
+    for vertex, color in sorted(vertex_colors.items()):
         print(f"{vertex} {color}")
+
     print("\n")
+
+if __name__ == "__main__":
+    main()
