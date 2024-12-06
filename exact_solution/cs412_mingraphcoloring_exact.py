@@ -1,9 +1,10 @@
 import time
 import itertools
+import sys
+
 
 def load_graph(file_name):
-   
-    #Load a graph from a file.
+    """Load a graph from a file."""
     with open(file_name, "r") as file:
         edges_count = int(file.readline().strip())
         graph = {}
@@ -17,22 +18,18 @@ def load_graph(file_name):
             graph[v].append(u)
     return graph
 
+
 def is_valid_coloring(graph, coloring):
- 
-    #Check if a given coloring is valid for the graph.
-
-
+    """Check if a given coloring is valid for the graph."""
     for node, neighbors in graph.items():
         for neighbor in neighbors:
             if coloring[node] == coloring[neighbor]:
                 return False
     return True
 
-def getMincolor(graph):
- 
-    #Find the color number of the graph using brute force with itertools.
 
-    
+def getMincolor(graph):
+    """Find the color number of the graph using brute force with itertools."""
     n = len(graph)
     nodes = list(graph.keys())
 
@@ -40,34 +37,42 @@ def getMincolor(graph):
     for num_colors in range(1, n + 1):
         # Generate all possible color assignments
         for coloring in itertools.product(range(num_colors), repeat=n):
-            if is_valid_coloring(graph, dict(zip(nodes, coloring))):
-                return num_colors, coloring  # Return color number and valid coloring
+            color_dict = dict(zip(nodes, coloring))
+            if is_valid_coloring(graph, color_dict):
+                return num_colors, color_dict  # Return color number and valid coloring
+
 
 def main():
-    # Test generated graph files
-    test_files = ["graph_small.txt", "graph_medium.txt", "graph_large.txt"]
+    # Check if input file is provided
+    if len(sys.argv) != 2:
+        print("Usage: python exact.py <input_file>")
+        sys.exit(1)
 
-    for file_name in test_files:
-        try:
-            print(f"Testing graph from {file_name}...")
-            graph = load_graph(file_name)
+    input_file = sys.argv[1]
 
-            if not graph:
-                print(f"Error: Graph in {file_name} is empty or invalid.")
-                continue
+    try:
+        # Load and process the graph
+        graph = load_graph(input_file)
 
-            start_time = time.time()
-            minColor, coloring = getMincolor(graph)
-            runtime = time.time() - start_time
+        if not graph:
+            print(f"Error: Graph in {input_file} is empty or invalid.")
+            sys.exit(1)
 
-            if minColor is None:
-                print(f"Error: No valid coloring found for {file_name}.")
-            else:
-                print(f"number of colors: {minColor}")
-                print(f"Coloring: {list(coloring)}")
-                print(f"Runtime: {runtime:.2f} seconds\n")
-        except Exception as e:
-            print(f"An error occurred while testing {file_name}: {e}\n")
+        # Get the coloring
+        minColor, coloring = getMincolor(graph)
+
+        # Print required output format
+        if minColor is not None:
+            print(minColor)  # First line: number of colors
+            for vertex, color in coloring.items():  # Following lines: vertex color pairs
+                print(f"{vertex} {color}")
+        else:
+            print("Error: No valid coloring found.")
+            sys.exit(1)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
