@@ -95,7 +95,7 @@ def greedy_coloring(adjacency_list):
 if __name__ == "__main__":
     # Check for correct number of arguments
     if len(sys.argv) < 2:
-        print("Usage: python cs412_mingraphcoloring_approx.py <input_file>")
+        print("Usage: python cs412_mingraphcolor_approx.py <input_file>")
         sys.exit(1)
 
     input_file = sys.argv[1]

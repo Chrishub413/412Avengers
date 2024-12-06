@@ -1,37 +1,29 @@
 #!/bin/bash
+# Script to run a single non-optimal large graph test case
 
-# Color definitions for prettier output
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-DIVIDER="=================================================================="
+# Define the solution file and test case
+SOLUTION_FILE="./cs412_mingraphcoloring_approx.py"
+TEST_CASE="test_cases/superlarge_nonoptimal.txt"
 
 # Check if solution file exists
-if [ ! -f "cs412_mingraphcoloring_approx.py" ]; then
-    echo -e "${RED}Error: Solution file 'cs412_mingraphcoloring_approx.py' not found!${NC}"
+if [ ! -f "$SOLUTION_FILE" ]; then
+    echo "Error: Solution file '$SOLUTION_FILE' not found!"
     exit 1
 fi
 
 # Check if test file exists
-if [ ! -f "test_cases/superlarge_nonoptimal.txt" ]; then
-    echo -e "${RED}Error: Test file 'test_cases/superlarge_nonoptimal.txt' not found!${NC}"
+if [ ! -f "$TEST_CASE" ]; then
+    echo "Error: Test file '$TEST_CASE' not found!"
     exit 1
 fi
 
-echo -e "${BLUE}Running Non-Optimal Large Graph Test Case${NC}"
-echo -e "${BLUE}This test case demonstrates where the approximation solution"
-echo -e "does not achieve the optimal answer.${NC}"
-echo $DIVIDER
-
 # Run the test
-python cs412_mingraphcoloring_approx.py test_cases/superlarge_nonoptimal.txt
+echo "Running Non-Optimal Large Graph Test Case..."
+echo "This test case demonstrates where the approximation solution does not achieve the optimal answer."
+python "$SOLUTION_FILE" "$TEST_CASE"
 
 if [ $? -eq 0 ]; then
-    echo -e "\n${GREEN}✓ Test completed successfully${NC}"
+    echo "✓ Test completed successfully"
 else
-    echo -e "\n${RED}✗ Test failed with error code $?${NC}"
+    echo "✗ Test failed with error code $?"
 fi
-
-echo $DIVIDER
-echo -e "${BLUE}Non-optimal test case execution completed.${NC}"
