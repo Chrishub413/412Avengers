@@ -2,7 +2,7 @@ import random
 import sys
 
 
-def generate_graph(num_vertices, num_edges, output_file="graph.txt"):
+def generate_graph(num_vertices, num_edges, output_file="fully-connected-large.txt"):
     """
     Generate an undirected graph with the specified number of vertices and edges.
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     try:
         num_vertices = int(sys.argv[1])
         num_edges = int(sys.argv[2])
-        output_file = sys.argv[3] if len(sys.argv) > 3 else "graph.txt"
+        output_file = sys.argv[3] if len(sys.argv) > 3 else "fully-connected-large.txt"
 
         generate_graph(num_vertices, num_edges, output_file)
     except ValueError as e:
