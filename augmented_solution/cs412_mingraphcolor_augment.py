@@ -22,10 +22,8 @@ def read_graph_from_stdin():
             
         return adjacency_list
     except EOFError:
-        print("Error: Incomplete input", file=sys.stderr)
         sys.exit(1)
     except ValueError:
-        print("Error: Invalid input format", file=sys.stderr)
         sys.exit(1)
 
 def compute_lower_bound(adjacency_list):
@@ -86,7 +84,6 @@ def main():
     # Print coloring
     for vertex, color in sorted(vertex_colors.items()):
         print(f"{vertex} {color}")
-
     print("\n")
 
 if __name__ == "__main__":
