@@ -4,9 +4,7 @@ import sys
 
 def read_graph_from_stdin():
     try:
-        
         num_edges = int(input().strip())
-        
         
         adjacency_list = {}
         for _ in range(num_edges):
@@ -22,14 +20,11 @@ def read_graph_from_stdin():
             
         return adjacency_list
     except EOFError:
-        print("Error: Incomplete input", file=sys.stderr)
         sys.exit(1)
     except ValueError:
-        print("Error: Invalid input format", file=sys.stderr)
         sys.exit(1)
 
 def is_valid_coloring(graph, coloring):
-    #Check if a given coloring is valid for the graph.
     for node, neighbors in graph.items():
         for neighbor in neighbors:
             if coloring[node] == coloring[neighbor]:
@@ -37,7 +32,6 @@ def is_valid_coloring(graph, coloring):
     return True
 
 def getMincolor(graph):
-    #Find the color number
     n = len(graph)
     nodes = list(graph.keys())
 
@@ -45,8 +39,9 @@ def getMincolor(graph):
     for num_colors in range(1, n + 1):
         # Generate all possible color assignments
         for coloring in itertools.product(range(num_colors), repeat=n):
-            if is_valid_coloring(graph, dict(zip(nodes, coloring))):
-                return num_colors, coloring  # Return color number and valid coloring
+            coloring_dict = dict(zip(nodes, coloring))
+            if is_valid_coloring(graph, coloring_dict):
+                return num_colors, coloring_dict  # Return color number and valid coloring as dict
     return None
 
 def main():
@@ -58,16 +53,17 @@ def main():
         return
 
     # Compute the minimum coloring
-    start_time = time.time()
-    minColor, coloring = getMincolor(graph)
-    runtime = time.time() - start_time
+    result = getMincolor(graph)
 
-    if minColor is None:
+    if result is None:
         print("Error: No valid coloring found.")
     else:
-        print(f"Number of colors: {minColor}")
-        print(f"Coloring: {list(coloring)}")
-        print(f"Runtime: {runtime:.2f} seconds")
+        min_colors, coloring = result
+        # Print number of colors
+        print(min_colors)
+        # Print vertex colorings
+        for vertex in sorted(coloring.keys()):
+            print(f"{vertex} {coloring[vertex]}")
 
 if __name__ == "__main__":
     main()
