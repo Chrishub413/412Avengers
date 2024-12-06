@@ -64,7 +64,19 @@ if __name__ == "__main__":
     adjacency_list = read_graph(input_file)
     vertex_colors = greedy_coloring(adjacency_list)
 
-    # Output results
-    print(len(set(vertex_colors.values())))
+    # Output initial results required by problem specification
+    num_colors = len(set(vertex_colors.values()))
+    print(num_colors)
     for vertex, color in vertex_colors.items():
         print(f"{vertex} {color}")
+
+    # Print divider line
+    print("\n" + "=" * 50)
+
+    # Print vertex coloring
+    print("\nDetailed vertex coloring:")
+    for vertex in sorted(vertex_colors.keys()):  # Sort vertices for cleaner output
+        print(f"Vertex {vertex}: Color {vertex_colors[vertex]}")
+
+    # Print chromatic number at the very end
+    print(f"\nChromatic Number: {num_colors}")
