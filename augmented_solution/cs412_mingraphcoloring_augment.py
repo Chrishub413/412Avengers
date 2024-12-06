@@ -1,5 +1,4 @@
 import sys
-import math
 
 def read_graph(input_file):
     with open(input_file, "r") as file:
@@ -21,7 +20,6 @@ def read_graph(input_file):
 def compute_lower_bound(adjacency_list):
     """
     Computes lower bound using maximum clique size approximation.
-    A clique needs all distinct colors, so its size is a lower bound.
     """
     max_clique_size = 1
     for vertex in adjacency_list:
@@ -40,8 +38,7 @@ def compute_lower_bound(adjacency_list):
 
 def compute_upper_bound(adjacency_list):
     """
-    Returns maximum degree + 1 as an upper bound.
-    By Brooks' theorem, this is an upper bound for the chromatic number.
+    Returns maximum degree + 1 as an upper bound. Brooks' Theorem
     """
     max_degree = max(len(neighbors) for neighbors in adjacency_list.values())
     return max_degree + 1
