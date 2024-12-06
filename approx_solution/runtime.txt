@@ -1,0 +1,55 @@
+Broken down runtime analysis for each part of the approximation algorithm:
+
+read_graph function:
+
+
+Reading lines: O(E) where E is number of edges
+Creating adjacency list: O(E)
+Total: O(E)
+
+
+greedy_coloring function (main approximation algorithm):
+
+pythonCopy# Sort vertices by degree - O(V log V)
+sorted_vertices = sorted(adjacency_list, key=lambda x: -len(adjacency_list[x]))
+
+# For each vertex V
+for vertex in sorted_vertices:
+    # Get neighbor colors - O(deg(v)) for each vertex
+    neighbor_colors = {vertex_colors[neighbor] for neighbor in adjacency_list[vertex]}
+
+    # Find smallest available color - O(V) worst case for each vertex
+    for color in range(len(adjacency_list)):
+        if color not in neighbor_colors:
+            vertex_colors[vertex] = color
+            break
+The dominant terms in greedy_coloring:
+
+Initial sort: O(V log V)
+For each vertex (V):
+
+Building neighbor_colors set: O(deg(v))
+Finding smallest available color: O(V)
+
+
+
+Total runtime for greedy_coloring: O(V log V + V²)
+
+The V² term comes from potentially needing to check up to V colors for each of V vertices
+This dominates the V log V term from sorting
+
+
+verify_coloring function:
+
+
+Checking all vertices colored: O(V)
+Checking adjacent colors: O(E)
+Total: O(V + E)
+
+Therefore, the overall worst-case runtime is O(V²), which is polynomial in the input size. This comes from:
+
+Reading graph: O(E)
+Greedy coloring: O(V²)
+Verification: O(V + E)
+
+The V² term from the greedy coloring dominates all other terms, making the total runtime O(V²).

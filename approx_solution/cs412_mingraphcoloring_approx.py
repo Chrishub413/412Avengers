@@ -29,6 +29,44 @@ def read_graph(input_file):
     return adjacency_list
 
 
+def verify_coloring(adjacency_list, vertex_colors):
+    """
+    Polynomial-time certifier for graph coloring solution.
+    Runtime: O(V + E) where V is number of vertices and E is number of edges.
+
+    This certifier verifies that:
+    1. Every vertex has a color (completeness)
+    2. No adjacent vertices share colors (correctness)
+
+    These checks are sufficient to prove a valid graph coloring in polynomial time.
+
+    Args:
+        adjacency_list (dict): Adjacency list representation of the graph
+        vertex_colors (dict): Mapping of vertices to their assigned colors
+
+    Returns:
+        tuple: (is_valid, message) where:
+            - is_valid (bool): True if coloring is valid, False otherwise
+            - message (str): Verification details and runtime analysis
+    """
+    # Step 1: Verify all vertices are colored - O(V) time
+    for vertex in adjacency_list:
+        if vertex not in vertex_colors:
+            return False, f"Certificate Invalid: Missing color for vertex {vertex}"
+
+    # Step 2: Verify no adjacent vertices share colors - O(E) time
+    for vertex in adjacency_list:
+        current_color = vertex_colors[vertex]
+        for neighbor in adjacency_list[vertex]:
+            if vertex_colors[neighbor] == current_color:
+                return False, f"Certificate Invalid: Adjacent vertices {vertex} and {neighbor} share color {current_color}"
+
+    # Certificate is valid - total runtime O(V + E)
+    num_vertices = len(adjacency_list)
+    num_edges = sum(len(neighbors) for neighbors in adjacency_list.values()) // 2
+    return True, f"Certificate Valid! Verified {num_vertices} vertices and {num_edges} edges in O(V + E) time"
+
+
 def greedy_coloring(adjacency_list):
     """
     Perform greedy coloring on the graph.
@@ -73,10 +111,19 @@ if __name__ == "__main__":
     # Print divider line
     print("\n" + "=" * 50)
 
+    # Verify the solution using polynomial-time certifier
+    print("\nRunning Polynomial-Time Certificate Verification:")
+    is_valid, message = verify_coloring(adjacency_list, vertex_colors)
+    print(message)
+
     # Print vertex coloring
     print("\nDetailed vertex coloring:")
-    for vertex in sorted(vertex_colors.keys()):  # Sort vertices for cleaner output
+    for vertex in sorted(vertex_colors.keys()):
         print(f"Vertex {vertex}: Color {vertex_colors[vertex]}")
 
     # Print chromatic number at the very end
     print(f"\nChromatic Number: {num_colors}")
+
+    # Exit with error if verification failed
+    if not is_valid:
+        sys.exit(1)
