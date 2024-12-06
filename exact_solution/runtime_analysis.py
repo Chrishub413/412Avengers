@@ -6,7 +6,7 @@ import numpy as np
 
 
 def run_algorithm(input_file):
-    """Run exact algorithm and measure its execution time"""
+    
     try:
         start_time = time.time()
         process = subprocess.run(['python', 'cs412_mingraphcolor_exact_file.py', input_file],
